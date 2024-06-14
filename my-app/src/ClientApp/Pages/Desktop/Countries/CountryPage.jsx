@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import CountryComponent from './CountryComponents/CountryComponent';
 import styles from '../Countries/CountryPage.module.css';
-import Header from '../../../Components/Layout/Header/Header';
-import ToggleColorMode from '../../../Components/Layout/Header/ToggleColorMode';
+import { Link } from 'react-router-dom';
 
 const CountryPage = () => {
   const [countryData, setCountryData] = useState(null);
@@ -19,7 +18,6 @@ const CountryPage = () => {
         const jsonData = await response.json();
         setCountryData(jsonData);
         setLoading(false);
-        console.log(jsonData);
       } catch (error) {
         setError(error.message);
         setLoading(false);
@@ -36,11 +34,11 @@ const CountryPage = () => {
 
   return (
     <div className={styles.cardsContainer}>
-     <ToggleColorMode/>
-      <Header />
       <div className={styles.cardsWrapper}>
         {countryData.map((country) => (
-          <CountryComponent key={country.alpha3Code} countryData={country} />
+            <Link key={country.alpha3Code} to={`/country/${country.alpha3Code}`} className={styles.countryLink}> 
+                <CountryComponent countryData={country} />
+            </Link>
         ))}
       </div>
     </div>
